@@ -1,5 +1,8 @@
 
 const items = require('../items')
+const { PrismaClient } = require("@prisma/client")
+
+const prisma = new PrismaClient()
 
 function itemRoutes (fastify, options, done) {
 
@@ -30,6 +33,19 @@ const getItemsOpts = {
 fastify.get('/items', getItemsOpts, async (req, reply) => {
   reply.send(items)
 })
+
+// create user
+fastify.post('/user', async (req, reply) => {
+  const createUser = await prisma.user.create({
+    data: {
+      email: req.body.email,
+      name: req.body.name,
+    },
+  })
+  console.log(createUser)
+  reply.send({status: "user created"}, {createUser})
+})
+
 
 //get single item
 fastify.get('/items/:id', async (req, reply) => {
