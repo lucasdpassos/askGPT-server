@@ -1,6 +1,10 @@
 const fastify = require('fastify')({ logger: true })
 
-fastify.register(require('./routes/items'))
+fastify.register(require('./routes/items'), {
+  prefix: "/api/v1"
+})
+
+fastify.after(error => error ? console.log("Items Plugin its not working properly") : console.log("Items plugin loaded successfully"))
 
 // Run the server!
 const start = async () => {
