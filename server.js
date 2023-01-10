@@ -1,18 +1,17 @@
-const fastify = require('fastify')({ logger: true })
+const Fastify = require('fastify')
 
-fastify.register(require('./routes/items'), {
-  prefix: "/api/v1"
-})
+function buildFastify () {
+  const fastify = Fastify()
 
-fastify.after(error => error ? console.log("Items Plugin its not working properly") : console.log("Items plugin loaded successfully"))
+  fastify.get('/', function (request, reply) {
+    reply.send({ hello: 'world' })
+  })
 
-// Run the server!
-const start = async () => {
-    try {
-      await fastify.listen({ port: 3000 })
-    } catch (err) {
-      fastify.log.error(err)
-      process.exit(1)
-    }
-  }
-  start()
+  fastify.register(require('./routes/items'))
+
+  return fastify
+}
+
+buildFastify()
+
+module.exports = buildFastify

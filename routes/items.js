@@ -6,10 +6,6 @@ const prisma = new PrismaClient()
 
 function itemRoutes (fastify, options, done) {
 
-// hello world
-fastify.get('/', async (req, reply) => {
-  return { hello: 'world' }
-})
 
 // options for get all items
 const getItemsOpts = {
