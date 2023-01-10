@@ -1,17 +1,17 @@
-const Fastify = require('fastify')
+'use strict'
 
-function buildFastify () {
-  const fastify = Fastify()
+const server = require('./app')({
+  logger: {
+    level: 'info',
+    transport: {
+      target: 'pino-pretty'
+    }
+  }
+})
 
-  fastify.get('/', function (request, reply) {
-    reply.send({ hello: 'world' })
-  })
-
-  fastify.register(require('./routes/items'))
-
-  return fastify
-}
-
-buildFastify()
-
-module.exports = buildFastify
+server.listen({ port: 3000 }, (err, address) => {
+  if (err) {
+    server.log.error(err)
+    process.exit(1)
+  }
+})

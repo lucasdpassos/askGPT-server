@@ -1,24 +1,16 @@
-const Fastify = require('fastify')
+'use strict'
 
-function buildFastify() {
-  const fastify = Fastify()
+const fastify = require('fastify')
 
-  // Run the server!
-fastify.listen({ port: 3000 }, function (err, address) {
-    if (err) {
-      fastify.log.error(err)
-      process.exit(1)
-    }
-    // Server is now listening on ${address}
+function build(opts={}) {
+  const app = fastify(opts)
+
+  app.register(require('./routes/items'))
+  app.get('/', async function (request, reply) {
+    return { hello: 'world' }
   })
 
-  fastify.get('/', function (request, reply) {
-    reply.send({ hello: 'world' })
-  })
-
-  return fastify
+  return app
 }
 
-buildFastify()
-
-module.exports = buildFastify
+module.exports = build

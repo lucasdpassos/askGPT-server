@@ -26,8 +26,11 @@ const getItemsOpts = {
 }
 
 // get all items
-fastify.get('/items', getItemsOpts, async (req, reply) => {
-  reply.send(items)
+fastify.get('/items', async (req, reply) => {
+  const getItems = {
+    items: items
+  }
+  reply.send(getItems)
 })
 
 // create user
